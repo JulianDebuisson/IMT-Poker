@@ -18,7 +18,7 @@ class Table:
         player.bet(amout)
 
     def get_all_ranks(self, board):
-        return {player.name: player.get_rank(board) for player in self.players}
+        return {player.name: player.get_rank(board) for player in self.players if not player.has_fold}
 
     def get_winner(self, scores):
         best_rank = min(scores.values())
@@ -47,6 +47,9 @@ class Table:
                 self.players.remove(player)
                 print("Le joueur ", player.name, " a été éliminé")
 
+    def as_everyone_folded(self):
+        player_not_folded = [player for player in self.players if not player.has_fold]
+        return len(player_not_folded) == 1
+
     def same_bet(self):
-        print(len(set([player.get_bet() for player in self.players])) == 1)
         return len(set([player.get_bet() for player in self.players])) == 1
